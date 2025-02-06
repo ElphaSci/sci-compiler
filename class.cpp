@@ -1,24 +1,15 @@
 //	class.cpp
 // 	code to deal with classes.
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <io.h>
-#include <sys/stat.h>
-
 #include "sol.hpp"
 
-//#include	"jeff.hpp"
-//#include	"char.hpp"
 #include	"string.hpp"
 
 #include	"sc.hpp"
 
 #include	"error.hpp"
-#include	"opcodes.hpp"
 #include	"object.hpp"
 #include	"parse.hpp"
-#include	"resource.hpp"
 #include	"symtbl.hpp"
 #include	"token.hpp"
 

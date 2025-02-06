@@ -1,8 +1,8 @@
 //	input.cpp	sc
 // 	input routines
 
-#include <dos.h>
 #include <stdlib.h>
+#include <cstdio>
 
 #include "sol.hpp"
 
@@ -165,7 +165,7 @@ OpenFileAsInput(
 	return theFile;
 }
 
-Bool
+bool
 CloseInputSource()
 {
 	// Close the current input source.  If the source is a file, this involves
@@ -173,7 +173,8 @@ CloseInputSource()
 
 	InputSource*	ois;
 
-	if (ois = is) {
+    ois = is;
+    if (ois) {
 		InputSource* next = is->next;
 		delete ois;
 		is = next;
@@ -182,9 +183,10 @@ CloseInputSource()
 	if (is) {
 		strcpy(curFile, is->fileName);
 		curLine = is->lineNum;
+        return true;
 	}
 
-	return (Bool) is;
+	return false;
 }
 
 void
@@ -194,7 +196,7 @@ SetStringInput(
 	SetInputSource(New InputString(str));
 }
 
-Bool
+bool
 GetNewInputLine()
 {
 	// Read a New line in from the current input file.  If we're at end of
@@ -212,9 +214,10 @@ GetNewInputLine()
 	if (is) {
 		++is->lineNum;
 		++curLine;
+        return true;
 	}
 
-	return (Bool) is;
+	return false;
 }
 
 void
@@ -312,9 +315,9 @@ SetInputSource(
 
 ////////////////////////////////////////////////////////////////////////////
 
-static fpos_t	startToken;
-static fpos_t	endToken;
-static fpos_t	startParse;
+static fpos_sci startToken;
+static fpos_sci endToken;
+static fpos_sci startParse;
 
 void
 SetTokenStart()
@@ -328,19 +331,21 @@ SetParseStart()
 	startParse = startToken;
 }
 
-fpos_t
+fpos_sci
 GetParseStart()
 {
 	return startParse;
 }
 
-fpos_t
+fpos_sci
 GetParsePos()
 {
-	return ((InputFile*) is)->lineStart + (long) (is->ptr - inputLine);
+
+//    return ftell(((InputFile *) is)->file) + (long) (is->ptr - inputLine);
+    return (long) (is->ptr - inputLine);
 }
 
-fpos_t
+fpos_sci
 GetTokenEnd()
 {
 	return endToken;
@@ -352,4 +357,3 @@ SetTokenEnd()
 	endToken = GetParsePos() - 1;
 }
 
-

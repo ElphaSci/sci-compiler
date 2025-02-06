@@ -5,8 +5,6 @@
 
 #include	"jeff.hpp"
 
-#include	"sc.hpp"
-
 #include	"anode.hpp"
 #include	"opcodes.hpp"
 #include	"optimize.hpp"

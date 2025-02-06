@@ -7,6 +7,8 @@
 #include	"symbol.hpp"
 #endif
 
+#define SUB 0x1a
+
 //	token.cpp
 void			GetToken();
 Bool			NextToken();
@@ -43,4 +45,3 @@ extern char		symStr[];
 extern Symbol	tokSym;
 
 #endif
-

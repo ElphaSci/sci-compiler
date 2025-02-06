@@ -7,10 +7,9 @@
 // author: Stephen Nichols
 //
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cctype>
 
 #include "getargs.hpp"
 #include "string.hpp"
@@ -64,14 +63,16 @@ void ShowUsage ( void )
 int getargs ( int argc, char **argv )
 {
     // set the program name
-    char *slashPtr = strrchr ( argv[0], '\\' );
+    char *slashPtr = strrchr ( argv[0], '/' );
 
     if ( slashPtr )
         gProgName = strdup ( slashPtr + 1 );
     else
         gProgName = strdup ( argv[0] );
 
-    strlwr ( gProgName );
+    for (int i = 0; gProgName[i] != '\0'; i++) {
+        gProgName[i] = std::tolower(static_cast<unsigned char>(gProgName[i]));
+    }
 
     // toss the .EXE extension
     slashPtr = strrchr ( gProgName, '.' );

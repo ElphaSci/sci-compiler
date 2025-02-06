@@ -16,5 +16,3 @@ extern int	errors;
 extern int	warnings;
 
 #endif
-
-

@@ -9,7 +9,7 @@
 #ifndef _STRING_HPP_
 #define _STRING_HPP_
 
-#include <string.h>
+#include <cstring>
 
 // this function trims all of the whitespace from the passed string, both front and back
 void trimstr ( char *str );

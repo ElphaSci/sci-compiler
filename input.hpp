@@ -8,6 +8,8 @@
 #include	"stdio.h"
 #endif
 
+typedef long fpos_sci;
+
 struct InputSource {
 	InputSource();
 	InputSource(char* fileName, int lineNum = 0);
@@ -46,9 +48,9 @@ struct InputString : InputSource {
 	Bool	endInputLine();
 };
 
-Bool				CloseInputSource();
+bool				CloseInputSource();
 void				FreeIncludePath();
-Bool				GetNewInputLine();
+bool				GetNewInputLine();
 InputSource*	OpenFileAsInput(strptr, Bool);
 void				SetIncludePath();
 void				SetStringInput(strptr);
@@ -57,9 +59,9 @@ void				RestoreInput();
 
 void				SetTokenStart();
 void				SetParseStart();
-fpos_t   		GetParseStart();
-fpos_t			GetParsePos();
-fpos_t			GetTokenEnd();
+fpos_sci   		    GetParseStart();
+fpos_sci			GetParsePos();
+fpos_sci			GetTokenEnd();
 void				SetTokenEnd();
 
 class StrList;
@@ -72,5 +74,3 @@ extern InputSource*	is;
 extern InputSource*	theFile;
 
 #endif
-
-

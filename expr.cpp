@@ -415,7 +415,11 @@ Send(
 		}
 		UnGetTok();
 		Expression(pn, REQUIRED);
-		objName = pn->child->sym ? pn->child->sym->name : "object";
+        if (pn->child->sym) {
+            objName = pn->child->sym->name;
+        } else {
+            objName = "object";
+        }
 	}
 
 	// Collect the messages to send to the object.
@@ -1214,4 +1218,3 @@ PNType(
 	Fatal("Bad symbol type in PNType().");
 	return (pn_t) 0;
 }
-

@@ -2,9 +2,8 @@
 //		write binary output files
 
 #include <fcntl.h>
-#include <io.h>
+#include <unistd.h>
 #include <sys/stat.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "sol.hpp"
@@ -116,4 +115,3 @@ OpenObjFile(MemType type, const char* name)
 
 	return out;
 }
-

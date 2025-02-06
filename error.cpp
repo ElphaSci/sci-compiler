@@ -1,7 +1,7 @@
 //	error.cpp	sc
 // 	error message routines for sc
 
-#include <io.h>
+#include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -226,4 +226,3 @@ AssertFail(char* file, int line, char* expression)
 	// assert() macro under BC++.  However, WATCOM knows it's senseless.
 	return 0;
 }
-

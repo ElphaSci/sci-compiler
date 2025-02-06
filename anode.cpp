@@ -1,17 +1,15 @@
 //	anode.cpp
 // 	assemble an object code list
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 #include "sol.hpp"
 
-#include "string.hpp"
 
 #include	"sc.hpp"
 
 #include	"anode.hpp"
-#include	"asm.hpp"
 #include	"define.hpp"
 #include	"error.hpp"
 #include	"listing.hpp"
@@ -618,7 +616,7 @@ ANOpExtern::ANOpExtern(
 	uint		e) : sym(s), module(m), entry(e)
 {
 	switch (module) {
-		case KERNEL:
+		case (uint)KERNEL:
 			op = op_callk | (entry < 256 ? OP_BYTE : 0);
 			break;
 		case 0:
@@ -699,7 +697,7 @@ ANCall::size()
 	else if (!sym->loc || target->offset == UNDEFINED)
 		return 5;
 #if	defined(OPTIMIZE_TRANSFERS)
-	else if (abs(target->offset - (offset + 5)) < 128) {
+	else if (abs((long)(target->offset - (offset + 5))) < 128) {
 		op |= OP_BYTE;
 		return 4;
 	}
@@ -755,7 +753,7 @@ ANBranch::size()
 	else if (!target || target->offset == UNDEFINED)
 		return 3;
 #if	defined(OPTIMIZE_TRANSFERS)
-	else if (abs(target->offset - (offset + 4)) < 128) {
+	else if (abs((long)(target->offset - (offset + 4))) < 128) {
 		op |= OP_BYTE;
 		return 2;
 	}
@@ -1112,4 +1110,3 @@ ANLineNum::size()
 {
 	return 1 + sizeof(SCIWord);
 }
-

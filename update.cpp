@@ -1,8 +1,6 @@
 //	update.cpp		sc
 // 	update the database of class and selector information
 
-#include <stdlib.h>
-#include <string.h>
 
 #include "sol.hpp"
 
@@ -14,7 +12,6 @@
 
 #include	"error.hpp"
 #include	"input.hpp"
-#include	"debug.hpp"
 #include	"object.hpp"
 #include	"output.hpp"
 #include	"resource.hpp"
@@ -65,7 +62,7 @@ WriteClassTbl()
 
 	static	ubyte	resID[2] = {MemResVocab, 0};
 
-	_Packed struct ClassTblEntry {
+	struct __attribute__((packed)) ClassTblEntry {
 		SCIUWord	objID;
 		SCIUWord	scriptNum;
 	};

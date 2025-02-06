@@ -1,8 +1,8 @@
 //	token.cpp		sc
 // 	return the next token from the input
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 #include "sol.hpp"
 
@@ -51,6 +51,7 @@ GetToken()
 {
 	// Get a token and bitch if one is not available.
 
+
 	if (!NewToken())
 		EarlyEnd();
 
@@ -68,8 +69,7 @@ NewToken()
 	Symbol*	theSym;
 
 	if (NextToken()) {
-		if (symType == S_IDENT &&
-			 (theSym = syms.lookup(symStr)) && theSym->type == S_DEFINE) {
+		if (symType == S_IDENT && (theSym = syms.lookup(symStr)) && theSym->type == S_DEFINE) {
 			SetStringInput(theSym->str);
 			NewToken();
 		}
@@ -168,7 +168,7 @@ NextToken()
 		return True;
 	}
 
-	if (!is) {
+	if (!is || *is->ptr == SUB) {
 		symType = S_END;
 		return False;
 	}
@@ -179,7 +179,7 @@ NextToken()
 	// Scan to the start of the next token.
 	while (IsSep(*ip)) {
 		// Eat any whitespace.
-		while (*ip == '\t' || *ip == ' ')
+		while (*ip == '\t' || *ip == ' ' || *ip == '\r')
 			++ip;
 
 		// If we hit the start of a comment, skip it.
@@ -187,7 +187,7 @@ NextToken()
 			while (*ip != '\n' && *ip != '\0')
 				++ip;
 
-		if (*ip == '\0' || *ip == '\n') {
+		if (*ip == '\0' || *ip == '\n' || *ip == SUB) {
 			if (is->endInputLine())
 				ip = is->ptr;
 			else {
@@ -196,6 +196,11 @@ NextToken()
 			}
 		}
 	}
+
+    if (*ip == SUB) {
+        symType = S_END;
+        return False;
+    }
 
 	// At this point, we are at the beginning of a valid token.
 	// The token type can be determined by examining the first character,
@@ -447,7 +452,7 @@ GetPreprocessorToken()
 		if (!strncmp(cp, tokens[i].text, len)) {
 			//	make sure that the full token matches
 			cp += len;
-			if (!*cp || *cp == '\n' || *cp == ' ' || *cp == '\t') {
+			if (!*cp || *cp == '\n' || *cp == '\r' || *cp == ' ' || *cp == '\t') {
 				is->ptr = cp;
 				return tokens[i].token;
 			}
@@ -468,7 +473,7 @@ ReadNumber(
 	int		sign;
 	strptr	validDigits;
 	strptr	theIndex;
-	
+
 	SCIWord	val = 0;
 
 	sp = symStr;
@@ -511,7 +516,7 @@ ReadNumber(
 	}
 
 	val *= sign;
-	
+
 	symVal = val;
 
 	*sp = '\0';
@@ -693,4 +698,3 @@ ReadKey(
 	is->ptr = ip;
 	SetTokenEnd();
 }
-

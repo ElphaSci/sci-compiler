@@ -16,7 +16,8 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devenv.flakeModule
@@ -26,12 +27,21 @@
       ];
       systems = [ "x86_64-linux" ];
 
-      perSystem = { config, pkgs, ... }:
+      perSystem =
+        {
+          config,
+          self',
+          inputs',
+          pkgs,
+          system,
+          lib,
+          fetchurl,
+          ...
+        }:
         let
 
         in
         {
-
 
           # Per-system attributes can be defined here. The self' and inputs'
           # module parameters provide easy access to attributes of the same
@@ -49,7 +59,6 @@
 
           packages.default = pkgs.callPackage ./nix { };
 
-
           overlayAttrs = {
             inherit (config.packages) realm-server;
           };
@@ -57,6 +66,8 @@
 
           devenv.shells.default = {
             name = "sci-compiler-dev";
+
+            enterShell = ''nushell'';
 
             imports = [
               # This is just like the imports in devenv.nix.
@@ -66,11 +77,11 @@
 
             # https://devenv.sh/reference/options/
             packages = with pkgs; [
-              /*build packages. Don't need all of them, but haven't removed all unnecessary yet */
               cmake
               pkg-config
               gcc
               libgcc
+              stdenv.cc.cc.lib
             ];
 
             scripts = {
@@ -81,6 +92,13 @@
                   mkdir -p ''${build_dir}
                   cmake -B ''${build_dir}
                   cmake --build cmake-build-''${2:-debug} --target ''${1:-all} -- -j 22
+                '';
+              };
+              clean = {
+                exec = ''
+                  rm -f CMakeCache.txt
+                  rm -rf ''${build_dir}
+                  rm -f bin/*
                 '';
               };
               rebuild = {
@@ -95,25 +113,7 @@
                 '';
               };
             };
-
-            process.manager.implementation = "process-compose";
-            processes = {
-              build-release.exec = ''build all release'';
-              build-debug = {
-                exec = ''build all debug'';
-                process-compose.disabled = true;
-              };
-              rebuild-release = {
-                exec = ''rebuild release'';
-                process-compose.disabled = true;
-              };
-              rebuild-debug = {
-                exec = ''rebuild debug'';
-                process-compose.disabled = true;
-              };
-            };
           };
-
 
         };
       flake = {
@@ -123,4 +123,3 @@
       };
     };
 }
-

@@ -1,7 +1,7 @@
 //	symtbl.cpp	sc
 // 	symbol table routines for sc
 
-#include <string.h>
+#include <cstring>
 
 #include "sol.hpp"
 
@@ -127,7 +127,7 @@ SymTbl::remove(
 	return 0;
 }
 
-Bool
+bool
 SymTbl::del(
 	strptr name)
 {
@@ -137,7 +137,7 @@ SymTbl::del(
 	Symbol *sp = remove(name);
 	delete sp;
 
-	return (Bool) sp;
+    return sp != nullptr;
 }
 
 uint
@@ -331,4 +331,3 @@ SymTbls::unlink(
 			tp->next = tbl->next;
 	}
 }
-

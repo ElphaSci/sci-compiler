@@ -1,10 +1,10 @@
 //	listing.cpp		sc
 // 	handle code listing
 
-#include <io.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "sol.hpp"
 
@@ -125,8 +125,7 @@ OpenListFile(const char* sourceFileName)
 		sourceLineNum = 0;
 	}
 
-	Listing("\n\t\t\t\tListing of %s:\t[script %d]\n\n",
-				sourceFileName, (SCIUWord) script);
+	Listing("\n\t\t\t\tListing of %s:\t[script %d]\n\n", sourceFileName, (SCIUWord) script);
 	Listing("LINE/\tOFFSET\tCODE\t\t\t\tNAME");
 	Listing("LABEL\t(HEX)\n");
 }
@@ -145,7 +144,7 @@ CloseListFile()
 void
 DeleteListFile()
 {
-	unlink(listName);
+    unlink(listName);
 }
 
 void
@@ -376,4 +375,3 @@ ListSourceLine(int num)
 	}
 	ListingNoCRLF("%s", buf);
 }
-

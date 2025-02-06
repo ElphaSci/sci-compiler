@@ -58,7 +58,7 @@ private:
 					// Remove the Symbol with name 'name' from this table.  Return
 					// a pointer to the Symbol.
 
-	Bool		del(strptr name);
+	bool del(strptr name);
 					// Remove and delete a Symbol with name 'name' from the table.
 					// Return True if it was found and deleted, False otherwise.
 

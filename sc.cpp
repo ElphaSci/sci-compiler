@@ -1,8 +1,9 @@
 //	sc.cpp		sc
 // 	the Script language compiler
 
-#include <stdlib.h>
-#include <io.h>
+#include <unistd.h>
+#include <string>
+#include <cctype>
 
 #include "sol.hpp"
 
@@ -21,7 +22,6 @@
 #include	"error.hpp"
 #include	"input.hpp"
 #include	"listing.hpp"
-#include	"mem.hpp"
 #include	"object.hpp"
 #include	"opcodes.hpp"
 #include	"output.hpp"
@@ -58,8 +58,6 @@ Arg				switches[] = {
 			"maximum number of global or local variables",
 	'l', GA_BOOL, (int *) &listCode,
 			"generate a code listing",
-	'm', GA_BOOL, (int *) &writeMemSizes,
-			"write memory allocation statistics",
 	'n', GA_BOOL, (int *) &noAutoName,
 			"no auto-naming of objects",
 	'o', GA_STR, (int *) &outDirPtr,
@@ -120,14 +118,13 @@ main(
 
 	exargs(&argc, &argv);
 
-#if 0
-	if (writeMemSizes)
-		atexit(WriteMemSizes);
-#endif
-
 	// See if the first file to be compiled exists.  If not, exit.
 	extPtr = _ExtPtr(argv[1]);
-	MakeName(fileName, argv[1], argv[1], (*extPtr)? extPtr : ".sc");
+    if (*extPtr) {
+        MakeName(fileName, argv[1], argv[1], extPtr);
+    } else {
+        MakeName(fileName, argv[1], argv[1], ".sc");
+    }
 	if (access(fileName, 0) == -1)
 		Panic("Can't find %s", fileName);
 
@@ -144,7 +141,7 @@ main(
 
 	// Set the include path.
 	SetIncludePath();
-	
+
 	// Install the built-in symbols then read in and install
 	// the definitions.  Lock the class database so that we're the only
 	// one updating it.
@@ -212,8 +209,15 @@ CompileFile(
 
 	// Open the source file.
 	extPtr = _ExtPtr(fileName);
-	MakeName(sourceFileName, fileName, fileName, *extPtr ? extPtr : ".sc");
-	strlwr(sourceFileName);
+    if (*extPtr) {
+        MakeName(sourceFileName, fileName, fileName, extPtr);
+    } else {
+        MakeName(sourceFileName, fileName, fileName, ".sc");
+    }
+
+    for (int i = 0; sourceFileName[i] != '\0'; i++) {
+        sourceFileName[i] = std::tolower(static_cast<unsigned char>(sourceFileName[i]));
+    }
 
 	output("%s\n", sourceFileName);
 	theFile = OpenFileAsInput(sourceFileName, True);
@@ -222,7 +226,7 @@ CompileFile(
 	// Parse the file (don't lock the symbol tables), then assemble it.
 	syms.moduleSymTbl = syms.add(ST_MEDIUM);
 	Parse();
-	MakeText();							// Add text to the assembly code
+    MakeText();							// Add text to the assembly code
 	if (script == -1)
 		Error("No script number specified.  Can't write output files.");
 	else {
@@ -245,12 +249,6 @@ CompileFile(
 
 	// Delete any free symbol tables.
 	syms.delFreeTbls();
-
-#if !defined(WINDOWS) && !defined(__386__)
-	if (writeMemSizes)
-		MemDisplay();
-	HEAPCHK
-#endif
 }
 
 static void
@@ -276,5 +274,9 @@ InstallCommandLineDefine(
 
 	Symbol* sym = syms.installGlobal(token, S_DEFINE);
 	token = strtok(0, "");
-	sym->str = newStr(token ? token : "1");
+    if (token) {
+        sym->str = newStr(token);
+    } else {
+        sym->str = newStr("1");
+    }
 }

@@ -7,7 +7,6 @@
 
 #include	"string.hpp"
 
-//#include "char.hpp"
 #include	"define.hpp"
 #include	"input.hpp"
 #include	"object.hpp"

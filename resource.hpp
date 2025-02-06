@@ -8,5 +8,3 @@
 char*	ResNameMake(MemType type, int num);
 
 #endif
-
-

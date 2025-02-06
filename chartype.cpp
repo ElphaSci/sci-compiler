@@ -1,8 +1,6 @@
 //	chartype.cpp
 // 	character type lookup table.
 
-#include "sol.hpp"
-
 #include	"sc.hpp"
 
 #include	"chartype.h"

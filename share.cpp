@@ -3,12 +3,11 @@
 // 	network-compatible
 
 #include <fcntl.h>
-#include <io.h>
 #include <sys/stat.h>
-#include	<signal.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<time.h>
+#include <csignal>
+#include <ctime>
+#include <cstdlib>
+#include <sys/file.h>
 
 #include "sol.hpp"
 
@@ -43,23 +42,25 @@ Lock()
 	signal(SIGINT, Abort);
 	signal(SIGABRT, Abort);
 
-	// Create the semaphore file.  If we can't do so, loop until we can.
-	if ((fd = open(lockFile, LOCKMODE, (int) S_IREAD)) == -1) {
-		if (abortIfLocked)
-			Panic("Access to database denied");
-        fprintf ( stderr, "Waiting for access to class database" );
-		time(&then);
-		while ((fd = open(lockFile, LOCKMODE, S_IREAD)) == -1) {
-			do
-				time(&now);
-			while (now <= then);
-			then = now;
-			putc('.', stderr);
-		}
-		putc('\n', stderr);
-	}
+    // Create the semaphore file.  If we can't do so, loop until we can.
+    while ((fd = open(lockFile, LOCKMODE, S_IRUSR | S_IWUSR)) == -1) {
+        if (abortIfLocked) {
+            Panic("Access to database denied");
+        }
+    }
 
-	close(fd);
+    // Attempt to lock the file
+    while (flock(fd, LOCK_EX) == -1) {
+        perror("Error locking file");
+        do {
+            time(&now);
+        } while (now <= then);
+        then = now;
+        putc('.', stderr);
+    }
+
+	flock(fd, LOCK_UN);
+    close(fd);
 	output("Class database locked.\n");
 	haveLock = True;
 }

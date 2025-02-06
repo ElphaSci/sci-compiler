@@ -1,7 +1,6 @@
 //	define.cpp
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdio>
 
 #include "sol.hpp"
 
@@ -13,7 +12,6 @@
 #include	"compile.hpp"
 #include	"define.hpp"
 #include	"error.hpp"
-#include	"listing.hpp"
 #include	"parse.hpp"
 #include	"symtbl.hpp"
 #include	"token.hpp"
@@ -110,7 +108,9 @@ Enum()
 				GetNumber("Constant expression required");
 				val = symVal;
 			}
-			theSym->str = newStr(itoa(val, theNum, 10));
+            /* For enums, we always interpret as unsigned short*/
+            sprintf(theNum, "%d", (unsigned short)val);
+			theSym->str = newStr(theNum);
 			++val;
 		}
 	}

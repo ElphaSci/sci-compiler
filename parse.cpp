@@ -1,9 +1,7 @@
 //	parse.cpp	sc
 // 	parse a script
 
-#include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "sol.hpp"
 

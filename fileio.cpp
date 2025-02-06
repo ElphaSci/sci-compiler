@@ -8,7 +8,6 @@
 
 #include "string.hpp"
 #include "fileio.hpp"
-
 //
 // This function builds a path name from the provided variables and stores it in dest.
 // 
@@ -27,8 +26,9 @@ void MakeName ( char *dest, char *dir, char *name, char *ext )
 		//
 		int dirLen = strlen ( dir );
 
-		if ( dirLen && (dir[dirLen-1] != '\\') && (dir[dirLen-1] != ':') && (*name != '\\') )
-			strcat ( dest, "\\" );
+        char lastChar = dir[dirLen - 1];
+        if (dirLen && (lastChar != '/') && (lastChar != ':') && (*name != '/') )
+			strcat ( dest, "/" );
 			
 		strcat ( dest, name );
 	}

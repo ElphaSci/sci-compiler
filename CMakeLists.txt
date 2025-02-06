@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(SCI_COMPILER C CXX)
 
-message("Project Source Directory: ${PROJECT_SOURCE_DIR}")
-
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
@@ -16,18 +13,46 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 add_definitions(-D_MAX_PATH=260)
 
+#add_library(sc_lib OBJECT
 add_executable(sc
         sc.cpp
-        alist.cpp
-        alist.hpp
-        anode.cpp
-        anode.hpp
+        sc.hpp
+        sol.hpp
+        jeff.hpp
+        string.cpp
+        string.hpp
         asm.cpp
         asm.hpp
         banner.cpp
         banner.hpp
         builtins.cpp
         builtins.hpp
+        error.cpp
+        error.hpp
+        input.cpp
+        input.hpp
+        listing.cpp
+        listing.hpp
+        object.cpp
+        object.hpp
+        opcodes.hpp
+        output.cpp
+        output.hpp
+        parse.hpp
+        parse.cpp
+        resource.cpp
+        resource.hpp
+        share.cpp
+        share.hpp
+        token.cpp
+        token.hpp
+        update.cpp
+        update.hpp
+
+        alist.cpp
+        alist.hpp
+        anode.cpp
+        anode.hpp
         chartype.cpp
         class.cpp
         compile.cpp
@@ -37,56 +62,30 @@ add_executable(sc
         debug.hpp
         define.cpp
         define.hpp
-        error.cpp
-        error.hpp
         expr.cpp
         fileio.cpp
         fileio.hpp
         getargs.cpp
         getargs.hpp
-        input.cpp
-        input.hpp
-        jeff.hpp
         list.cpp
         list.hpp
-        listing.cpp
-        listing.hpp
         loop.cpp
-        mem.cpp
-        mem.hpp
         memtype.hpp
         new.cpp
         new.hpp
-        object.cpp
-        object.hpp
-        opcodes.hpp
         optimize.cpp
         optimize.hpp
-        output.cpp
-        output.hpp
-        parse.cpp
-        parse.hpp
         pnode.cpp
         proc.cpp
-        resource.cpp
-        resource.hpp
-        sc.hpp
         selector.cpp
-        share.cpp
-        share.hpp
-        sol.hpp
-        string.cpp
-        string.hpp
         symbol.cpp
         symbol.hpp
         symtbl.cpp
         symtbl.hpp
         text.cpp
         text.hpp
-        token.cpp
-        token.hpp
         toktypes.cpp
-        update.cpp
-        update.hpp
         vocab.hpp
+
+
 )

@@ -2,8 +2,6 @@
 
 #include "sol.hpp"
 
-#include	"sc.hpp"
-
 #include "list.hpp"
 
 List::List()
