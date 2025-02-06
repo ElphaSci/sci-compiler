@@ -6,7 +6,7 @@
 // author: Stephen Nichols
 //
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "new.hpp"
 
 void *operator new ( size_t size )
