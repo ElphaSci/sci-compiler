@@ -15,8 +15,8 @@ class OutputFile;
 #define	BYTESIZE		2
 #define	WORDSIZE		3
 
-class ANode;
-class ANReference;
+struct ANode;
+struct ANReference;
 class Symbol;
 
 struct ANReference {
@@ -142,7 +142,7 @@ struct ANObjTable : ANTable
 	ANObjTable(char* nameStr);
 };
 
-class Text;
+struct Text;
 
 struct ANText : ANode
 // The ANText class represents a text string.
@@ -460,7 +460,7 @@ struct ANSuper : ANSend
 	Symbol*	sym;
 };
 
-class VarList;
+struct VarList;
 
 class ANVars : public ANode
 // The ANVars class is used to generate the block of variables for the

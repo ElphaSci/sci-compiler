@@ -5,7 +5,7 @@
 #define SC_HPP
 
 // Modes for opening files.
-#define	OMODE	(int) 		(O_CREAT | O_RDWR | O_TRUNC)
+#define	OMODE	(int) 		( O_CREAT | O_RDWR | O_TRUNC)
 #define	PMODE	(int) 		(S_IREAD | S_IWRITE)
 
 #define	REQUIRED				1
@@ -19,7 +19,7 @@ typedef unsigned char	ubyte;
 typedef unsigned short	uword;
 
 class FixupList;
-class CodeList;
+struct CodeList;
 
 struct Compiler {
 	Compiler();

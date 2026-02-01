@@ -8,7 +8,7 @@
 #include <stdio.h>
 #endif
 
-class ANode;
+struct ANode;
 class Symbol;
 
 // Structure of a node in a class or object template.
@@ -25,7 +25,7 @@ struct Selector {
 	uint			tag;
 };
 
-class Class;
+struct Class;
 
 struct Object {
 	Object();

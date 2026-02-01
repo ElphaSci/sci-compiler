@@ -19,7 +19,6 @@
 
 char				curFile[_MAX_PATH + 1];
 int				curLine;
-InputSource*	curSourceFile;
 StrList*			includePath;
 InputSource*	is;
 InputSource*	theFile;
@@ -173,8 +172,7 @@ CloseInputSource()
 
 	InputSource*	ois;
 
-    ois = is;
-    if (ois) {
+	if ((ois = is)) {
 		InputSource* next = is->next;
 		delete ois;
 		is = next;

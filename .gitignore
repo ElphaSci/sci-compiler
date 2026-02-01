@@ -233,6 +233,7 @@ _pkginfo.txt
 ClientBin/
 ~$*
 *~
+**/*~
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
@@ -402,3 +403,9 @@ sc.map
 *.err
 
 cmake-*
+MSG
+SCI_SYS
+SRC
+SCI_Obj
+Interp
+client

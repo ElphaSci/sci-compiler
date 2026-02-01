@@ -998,8 +998,8 @@ MakeProc(PNode* pn)
 		Compile(pn->child);
 
 	if (includeDebugInfo) {
-		assert(curSourceFile);
-		New ANLineNum(curSourceFile->lineNum);
+		assert(is);
+		New ANLineNum(is->lineNum);
 	}
 	New ANOpCode(op_ret);
 
@@ -1042,8 +1042,8 @@ MakeObject(Object* theObj)
 	ANOfsProp* pDict = 0;
 	ANOfsProp* mDict = 0;
 
-	Selector* sp = new Selector;
-	for (sp = theObj->selectors; sp; sp = sp->next)
+	Selector* sp = theObj->selectors;
+	for (; sp; sp = sp->next)
 		if (IsProperty(sp)) {
 			switch (sp->tag) {
 				case T_PROP:

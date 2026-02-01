@@ -725,12 +725,12 @@ ANCall::emit(OutputFile* out)
 		return;
 	}
 
-	int n = target->offset - (offset + size());
+	long n = target->offset - (offset + size());
 	out->WriteOp(op);
 	if (op & OP_BYTE)
-		out->WriteByte(n);
+		out->WriteByte((ubyte)n);
 	else
-		out->WriteWord(n);
+		out->WriteWord((uword)n);
 
 	out->WriteWord(numArgs);
 }
@@ -775,13 +775,13 @@ ANBranch::list()
 void
 ANBranch::emit(OutputFile* out)
 {
-	int n = target->offset - (offset + size());
+	long n = target->offset - (offset + size());
 
 	out->WriteOp(op);
 	if (op & OP_BYTE)
-		out->WriteByte(n);
+		out->WriteByte((ubyte)n);
 	else
-		out->WriteWord(n);
+		out->WriteWord((uword)n);
 }
 
 ///////////////////////////////////////////////////
@@ -849,7 +849,7 @@ ANOpOfs::emit(OutputFile* out)
 {
 	out->WriteOp(op);
 	sc->hunkList->addFixup(offset + 1);
-	out->WriteWord(textStart + ofs);
+	out->WriteWord((uword)textStart + ofs);
 }
 
 ///////////////////////////////////////////////////
@@ -886,7 +886,7 @@ ANObjID::emit(OutputFile* out)
 
 	out->WriteOp(op);
 	sc->hunkList->addFixup(offset+1);
-	out->WriteWord(target->offset);
+	out->WriteWord((uword)target->offset);
 }
 
 ///////////////////////////////////////////////////
